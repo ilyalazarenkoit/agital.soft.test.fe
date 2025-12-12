@@ -3,13 +3,23 @@ import SectionHeading from "@/components/SectionHeading";
 import HomeWelcome from "@/components/home/HomeWelcome";
 import HomeEmptyState from "@/components/home/HomeEmptyState";
 import { Product } from "@/lib/types";
+import { headers } from "next/headers";
 
 type HomeResponse = {
   newest: Product[];
   topRated: Product[];
 };
+
+async function getBaseUrl(): Promise<string> {
+  const headersList = await headers();
+  const host = headersList.get("host");
+  const protocol = headersList.get("x-forwarded-proto") || "http";
+  return `${protocol}://${host}`;
+}
+
 async function fetchHomeProducts(): Promise<HomeResponse> {
-  const res = await fetch("/api/home?limit=10", {
+  const baseUrl = await getBaseUrl();
+  const res = await fetch(`${baseUrl}/api/home?limit=10`, {
     cache: "no-store",
   });
 

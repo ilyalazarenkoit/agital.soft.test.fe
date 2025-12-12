@@ -3,6 +3,7 @@ import Pagination from "@/components/Pagination";
 import CatalogHeader from "@/components/catalog/CatalogHeader";
 import CatalogEmptyState from "@/components/catalog/CatalogEmptyState";
 import { Product } from "@/lib/types";
+import { headers } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
@@ -14,12 +15,20 @@ type CatalogResponse = {
   totalPages: number;
 };
 
+async function getBaseUrl(): Promise<string> {
+  const headersList = await headers();
+  const host = headersList.get("host");
+  const protocol = headersList.get("x-forwarded-proto") || "http";
+  return `${protocol}://${host}`;
+}
+
 async function fetchCatalogProducts(
   sort: string,
   page: number,
   limit: number,
   q?: string
 ): Promise<CatalogResponse> {
+  const baseUrl = await getBaseUrl();
   const params = new URLSearchParams();
   if (q && q.trim()) {
     params.set("q", q.trim());
@@ -29,7 +38,7 @@ async function fetchCatalogProducts(
   params.set("page", page.toString());
   params.set("limit", limit.toString());
 
-  const res = await fetch(`/api/products?${params.toString()}`, {
+  const res = await fetch(`${baseUrl}/api/products?${params.toString()}`, {
     cache: "no-store",
   });
 

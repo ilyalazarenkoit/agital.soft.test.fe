@@ -5,11 +5,20 @@ import ProductImageGallery from "@/components/productDetails/ProductImageGallery
 import ProductPriceBox from "@/components/productDetails/ProductPriceBox";
 import ProductActions from "@/components/productDetails/ProductActions";
 import ProductReviews from "@/components/productDetails/ProductReviews";
+import { headers } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
+async function getBaseUrl(): Promise<string> {
+  const headersList = await headers();
+  const host = headersList.get("host");
+  const protocol = headersList.get("x-forwarded-proto") || "http";
+  return `${protocol}://${host}`;
+}
+
 async function fetchProduct(id: string): Promise<Product> {
-  const res = await fetch(`/api/products/${id}`, {
+  const baseUrl = await getBaseUrl();
+  const res = await fetch(`${baseUrl}/api/products/${id}`, {
     cache: "no-store",
   });
 
