@@ -61,10 +61,7 @@ export default function ReviewForm({ productId, onReviewSubmitted }: Props) {
     setIsSubmitting(true);
 
     try {
-      const base =
-        process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-        "http://127.0.0.1:3000";
-      const res = await fetch(`${base}/api/products/${productId}/reviews`, {
+      const res = await fetch(`/api/products/${productId}/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

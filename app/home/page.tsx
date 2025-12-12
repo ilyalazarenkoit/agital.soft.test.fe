@@ -9,10 +9,7 @@ type HomeResponse = {
   topRated: Product[];
 };
 async function fetchHomeProducts(): Promise<HomeResponse> {
-  const base =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "http://127.0.0.1:3000";
-  const res = await fetch(`${base}/api/home?limit=10`, {
+  const res = await fetch("/api/home?limit=10", {
     cache: "no-store",
   });
 

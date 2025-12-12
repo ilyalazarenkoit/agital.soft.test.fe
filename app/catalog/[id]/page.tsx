@@ -9,10 +9,7 @@ import ProductReviews from "@/components/productDetails/ProductReviews";
 export const dynamic = "force-dynamic";
 
 async function fetchProduct(id: string): Promise<Product> {
-  const base =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "http://127.0.0.1:3000";
-  const res = await fetch(`${base}/api/products/${id}`, {
+  const res = await fetch(`/api/products/${id}`, {
     cache: "no-store",
   });
 

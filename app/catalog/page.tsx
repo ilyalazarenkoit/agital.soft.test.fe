@@ -20,10 +20,6 @@ async function fetchCatalogProducts(
   limit: number,
   q?: string
 ): Promise<CatalogResponse> {
-  const base =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "http://127.0.0.1:3000";
-
   const params = new URLSearchParams();
   if (q && q.trim()) {
     params.set("q", q.trim());
@@ -33,7 +29,7 @@ async function fetchCatalogProducts(
   params.set("page", page.toString());
   params.set("limit", limit.toString());
 
-  const res = await fetch(`${base}/api/products?${params.toString()}`, {
+  const res = await fetch(`/api/products?${params.toString()}`, {
     cache: "no-store",
   });
 

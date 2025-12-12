@@ -84,10 +84,7 @@ export default function RegisterForm() {
     setIsLoading(true);
 
     try {
-      const base =
-        process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-        "http://127.0.0.1:3000";
-      const res = await fetch(`${base}/api/auth/register`, {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

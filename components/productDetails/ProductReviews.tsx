@@ -28,9 +28,6 @@ export default function ProductReviews({ productId }: Props) {
       setError(null);
 
       try {
-        const base =
-          process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-          "http://127.0.0.1:3000";
         const params = new URLSearchParams();
         if (stars !== null && stars !== undefined) {
           params.set("stars", stars.toString());
@@ -39,7 +36,7 @@ export default function ProductReviews({ productId }: Props) {
         params.set("limit", limit.toString());
 
         const res = await fetch(
-          `${base}/api/products/${productId}/reviews?${params.toString()}`
+          `/api/products/${productId}/reviews?${params.toString()}`
         );
 
         if (!res.ok) {
